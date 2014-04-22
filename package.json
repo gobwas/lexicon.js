@@ -1,0 +1,28 @@
+{
+  "name": "lexicon-js",
+  "version": "0.1.0",
+  "description": "Simple lexicon storage with smart resolving of phrases",
+  "main": "./lib/lexicon.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gobwas@github.com/gobwas/Lexicon.js.git"
+  },
+  "keywords": [
+    "lexicon",
+    "storage",
+    "handbook",
+    "dictionary"
+  ],
+  "author": "Sergey Kamardin <gobwas@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gobwas/Lexicon.js/issues"
+  },
+  "homepage": "https://github.com/gobwas/Lexicon.js",
+  "dependencies": {
+    "underscore": "*"
+  }
+}
