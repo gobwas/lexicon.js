@@ -4,7 +4,7 @@
   "description": "Simple lexicon storage with smart resolving of phrases",
   "main": "./lib/lexicon.js",
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha test -u tdd"
   },
   "repository": {
     "type": "git",
