@@ -1,76 +1,95 @@
-var assert  = require("chai").assert,
+var _       = require("underscore"),
+	assert  = require("chai").assert,
 	Lexicon = require("../lib/lexicon");
 
 suite('Lexicon', function(){
+	var mess, lexicon;
 
 	setup(function(){
-		//..
+		lexicon = new Lexicon({
+			key: {
+				_: "_"
+			}
+		});
+
+		mess = {
+	        lexema: {
+	            _: {
+	                a: "1",
+	                c: "4"
+	            },
+
+	            b: {
+	                a:"2"
+	            },
+
+	            message: "Hello, my dear friend!",
+
+	            template: "Hello, my dear <%= friend %>!"
+	        },
+	        _: {
+	            b: {
+	                d:"5"
+	            },
+	            _ : {
+	            	_: "very!"
+	            }
+	        }
+	    };
 	});
 
 	suite('#_resolvePath', function(){
-		var mess, lexicon;
-
-		setup(function() {
-
-			lexicon = new Lexicon({
-				key: {
-					_: "_"
-				}
-			});
-			
-			mess = {
-		        error: {
-		            _: {
-		                a: "1",
-		                c: "4"
-		            },
-
-		            b: {
-		                a:"2"
-		            }
-		        },
-		        _: {
-		            b: {
-		                d:"5"
-		            },
-		            _ : {
-		            	_: "very!"
-		            }
-		        }
-		    };
-		});
-
 		test('should return existing value', function(){
-			var result;
+			var value;
 
-			result = lexicon._resolvePath(mess, ["error", "b", "a"]);
+			value = lexicon._resolvePath(mess, ["lexema", "b", "a"]);
 
-			assert.strictEqual(result, mess.error.b.a);
+			assert.strictEqual(value, mess.lexema.b.a);
 		});
 
 		test('should return fallback value from first neighboor', function(){
-			var result;
+			var value;
 
-			result = lexicon._resolvePath(mess, ["error", "b", "c"]);
+			value = lexicon._resolvePath(mess, ["lexema", "b", "c"]);
 
-			assert.strictEqual(result, mess.error._.c);
+			assert.strictEqual(value, mess.lexema._.c);
 		});
 
 		test('should return fallback value from root neighboor', function(){
-			var result;
+			var value;
 
-			result = lexicon._resolvePath(mess, ["error", "b", "d"]);
+			value = lexicon._resolvePath(mess, ["lexema", "b", "d"]);
 
-			assert.strictEqual(result, mess._.b.d);
+			assert.strictEqual(value, mess._.b.d);
 		});
 
 
 		test('should return very fallback value', function(){
-			var result;
+			var value;
 
-			result = lexicon._resolvePath(mess, ["error", "b", "z"]);
+			value = lexicon._resolvePath(mess, ["lexema", "b", "z"]);
 
-			assert.strictEqual(result, mess._._._);
+			assert.strictEqual(value, mess._._._);
+		});
+	});
+
+	suite('#getMessage', function() {
+		test('should return existing message', function() {
+			var message;
+
+			message = lexicon.getMessage(mess, ["lexema", "message"]);
+
+			assert.strictEqual(message, mess.lexema.message);
+		});
+
+		test('should return rendered template', function() {
+			var message, data;
+
+			data = { friend: "Alf" };
+
+			message = lexicon.getMessage(mess, ["lexema", "template"], { data: data });
+
+			assert.strictEqual(message, _.template(mess.lexema.template)(data));
 		});
 	});
 
