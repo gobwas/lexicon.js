@@ -1,6 +1,6 @@
 {
   "name": "lexicon-js",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Simple lexicon storage with smart resolving of phrases",
   "main": "./lib/lexicon.js",
   "scripts": {

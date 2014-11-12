@@ -20,7 +20,11 @@ suite('Lexicon', function(){
 	            },
 
 	            b: {
-	                a:"2"
+	                a: "2"
+	            },
+
+	            c: {
+	            	_: "hi!"
 	            },
 
 	            message: "Hello, my dear friend!",
@@ -45,6 +49,22 @@ suite('Lexicon', function(){
 			value = lexicon._resolvePath(mess, ["lexema", "b", "a"]);
 
 			assert.strictEqual(value, mess.lexema.b.a);
+		});
+
+		test('should return fallback value from first neighboor when path is null', function(){
+			var value;
+
+			value = lexicon._resolvePath(mess, ["lexema", "c", null]);
+
+			assert.strictEqual(value, mess.lexema.c._);
+		});
+
+		test('should return fallback value from first neighboor when path is finite', function(){
+			var value;
+
+			value = lexicon._resolvePath(mess, ["lexema", "c"]);
+
+			assert.strictEqual(value, mess.lexema.c._);
 		});
 
 		test('should return fallback value from first neighboor', function(){
